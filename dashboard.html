@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>School Dashboard</title>
+  <style>
+    body {
+      font-family: 'Kanit', sans-serif;
+      line-height: 1.6;
+      background-color: white;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+    .container {
+      text-align: center;
+      width: 80%;
+      margin: auto;
+      overflow: hidden;
+      padding: 20px;
+    }
+    .header h1 {
+      color: #003478;
+      margin-top: 0;
+    }
+    .dashboard {
+      text-align: center;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .section {
+      background: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      border-left: 5px solid #003478;
+      box-sizing: border-box;
+      margin-bottom: 20px;
+    }
+    .section.half-width {
+      flex: 1;
+      min-width: calc(50% - 20px);
+    }
+    .section.full-width {
+      flex: 1;
+      min-width: calc(100% - 20px);
+    }
+    .section h2 {
+      color: #003478;
+      margin-top: 0;
+      text-align: center;
+      font-size: 1rem;
+    }
+    .chart-container {
+      text-align: center;
+      margin: auto;
+      position: relative;
+      height: 300px;
+      width: 100%;
+    }
+    canvas {
+      text-align: center;
+      margin: auto;
+      width: 100%;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="dashboard">
+      <div class="section half-width">
+        <h2>ประชากรตามเพศ</h2>
+        <div class="chart-container">
+          <canvas id="sexPopulationChart"></canvas>
+        </div>
+      </div>
+      <div class="section half-width">
+        <h2>บุคลากร</h2>
+        <div class="chart-container">
+          <canvas id="personnelChart"></canvas>
+        </div>
+      </div>
+      <div class="section full-width">
+        <h2>จำนวนนักเรียน</h2>
+        <div class="chart-container">
+          <canvas id="studentChart"></canvas>
+        </div>
+      </div>
+      <div class="section full-width">
+        <h2>การเข้าร่วมกิจกรรมพิเศษ</h2>
+        <div class="chart-container">
+          <canvas id="activityParticipationChart"></canvas>
+        </div>
+      </div>
+      <div class="section full-width">
+        <h2>ผลสัมฤทธิ์ทางการเรียน</h2>
+        <div class="chart-container">
+          <canvas id="academicPerformanceChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // Student Chart
+    const studentCtx = document.getElementById('studentChart').getContext('2d');
+    const studentChart = new Chart(studentCtx, {
+      type: 'bar',
+      data: {
+        labels: ['อนุบาล', 'ประถมศึกษาปีที่ 1', 'ประถมศึกษาปีที่ 2', 'ประถมศึกษาปีที่ 3', 'ประถมศึกษาปีที่ 4', 'ประถมศึกษาปีที่ 5', 'ประถมศึกษาปีที่ 6'],
+        datasets: [{
+          label: 'จำนวนนักเรียน',
+          data: [21, 8, 13, 9, 9, 9, 6],
+          backgroundColor: 'rgba(0, 52, 120, 0.6)',
+          borderColor: 'rgba(0, 52, 120, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 30
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          },
+          datalabels: {
+            color: 'black',
+            anchor: 'end',
+            align: 'top',
+            formatter: (value) => value
+          }
+        }
+      },
+      plugins: [ChartDataLabels]
+    });
+
+    // Personnel Chart
+    const personnelCtx = document.getElementById('personnelChart').getContext('2d');
+    const personnelChart = new Chart(personnelCtx, {
+      type: 'pie',
+      data: {
+        labels: ['ผู้บริหาร', 'ครูประจำการ', 'พนักงานราชการ', 'ครูอัตราจ้าง', 'ธุรการ'],
+        datasets: [{
+          label: 'จำนวนบุคลากร',
+          data: [1, 6, 1, 1, 1],
+          backgroundColor: [
+            'rgba(0, 52, 120, 0.6)',
+            'rgba(54, 162, 235, 0.6)',
+            'rgba(255, 206, 86, 0.6)',
+            'rgba(75, 192, 192, 0.6)',
+            'rgba(255, 99, 132, 0.6)'
+          ],
+          borderColor: [
+            'rgba(0, 52, 120, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(255, 99, 132, 1)'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        plugins: {
+          legend: {
+            position: 'bottom'
+          },
+          datalabels: {
+            color: '#fff',
+            formatter: (value, ctx) => {
+              let sum = 0;
+              const dataArr = ctx.chart.data.datasets[0].data;
+              dataArr.map(data => sum += data);
+              const percentage = (value * 100 / sum).toFixed(1) + "%";
+              return percentage;
+            }
+          }
+        }
+      },
+      plugins: [ChartDataLabels]
+    });
+
+    // Academic Performance Chart
+const academicPerformanceCtx = document.getElementById('academicPerformanceChart').getContext('2d');
+const academicPerformanceChart = new Chart(academicPerformanceCtx, {
+  type: 'radar',
+  data: {
+    labels: ['คณิตศาสตร์', 'วิทยาศาสตร์', 'ภาษาไทย', 'ภาษาอังกฤษ'],
+    datasets: [{
+      label: 'คะแนนเฉลี่ย',
+      data: [31.96, 44.58, 53.27, 26.30],
+      backgroundColor: 'rgba(0, 52, 120, 0.2)',
+      borderColor: 'rgba(0, 52, 120, 1)',
+      pointBackgroundColor: 'rgba(0, 52, 120, 1)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(0, 52, 120, 1)'
+    }]
+  },
+  options: {
+    scale: {
+      ticks: {
+        beginAtZero: true,
+        min: 0,
+        max: 100,
+        stepSize: 20
+      }
+    },
+    elements: {
+      line: {
+        borderWidth: 2
+      }
+    },
+    plugins: {
+      legend: {
+        position: 'bottom'
+      },
+      datalabels: {
+        color: '#003478',
+        formatter: (value) => value
+      }
+    }
+  },
+  plugins: [ChartDataLabels]
+});
+
+    // Activity Participation Chart
+    const activityParticipationCtx = document.getElementById('activityParticipationChart').getContext('2d');
+    const activityParticipationChart = new Chart(activityParticipationCtx, {
+      type: 'bar',
+      data: {
+        labels: ['กิจกรรมกีฬา', 'กิจกรรมศิลปะ', 'กิจกรรมวิทยาศาสตร์', 'กิจกรรมดนตรี', 'กิจกรรมการละคร'],
+        datasets: [{
+          label: 'จำนวนนักเรียนที่เข้าร่วม',
+          data: [15, 20, 10, 5, 8],
+          backgroundColor: 'rgba(0, 52, 120, 0.6)',
+          borderColor: 'rgba(0, 52, 120, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 25
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          },
+          datalabels: {
+            color: 'black',
+            anchor: 'end',
+            align: 'top',
+            formatter: (value) => value
+          }
+        }
+      },
+      plugins: [ChartDataLabels]
+    });
+
+    // Sex Population Chart
+    const sexPopulationCtx = document.getElementById('sexPopulationChart').getContext('2d');
+    const sexPopulationChart = new Chart(sexPopulationCtx, {
+      type: 'doughnut',
+      data: {
+        labels: ['ชาย', 'หญิง'],
+        datasets: [{
+          label: 'จำนวนนักเรียนตามเพศ',
+          data: [54, 65], // Replace with actual numbers
+          backgroundColor: [
+            'rgba(54, 162, 235, 0.6)', // Male color
+            'rgba(255, 99, 132, 0.6)'  // Female color
+          ],
+          borderColor: [
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 99, 132, 1)'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        plugins: {
+          legend: {
+            position: 'bottom'
+          },
+          datalabels: {
+            color: '#fff',
+            formatter: (value, ctx) => {
+              let sum = 0;
+              const dataArr = ctx.chart.data.datasets[0].data;
+              dataArr.map(data => sum += data);
+              const percentage = (value * 100 / sum).toFixed(1) + "%";
+              return percentage;
+            }
+          }
+        }
+      },
+      plugins: [ChartDataLabels]
+    });
+  </script>
+</body>
+</html>
