@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Gallery</title>
+    <style>
+        body {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .image-container {
+            margin: 10px;
+        }
+        .image-container img {
+            max-width: 200px;
+            height: auto;
+            border: 2px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div id="gallery"></div>
+
+    <script>
+        const folderId = "1Snjn8YuoD5-cEOW94h1oYgy16SAtc2og";
+        const API_KEY = 'AIzaSyBLxCcocJeg20F9YcKVz-0mzU0vQ712GEc';
+        const apiUrl = `https://www.googleapis.com/drive/v3/files?q='${folderId}'+in+parents&key=${API_KEY}&fields=files(id,name,mimeType,webContentLink)`;
+        
+        fetch(apiUrl)
+          .then(response => response.json())
+          .then(data => {
+            const gallery = document.getElementById('gallery');
+            data.files.forEach(file => {
+              if (file.mimeType.startsWith('image/')) {
+                const img = document.createElement('img');
+                img.src = `https://drive.google.com/thumbnail?id=${file.id}&sz=w1000-h1000`;
+                img.alt = file.name;
+                const div = document.createElement('div');
+                div.className = 'image-container';
+                div.appendChild(img);
+                gallery.appendChild(div);
+              }
+            });
+          })
+          .catch(error => console.error('Error fetching images:', error));
+        </script>
+  
+</body>
+</html>

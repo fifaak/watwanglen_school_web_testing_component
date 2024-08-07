@@ -1,0 +1,729 @@
+<style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-family: Arial, sans-serif;
+    }
+  
+    th, td {
+      border: 1px solid #ddd;
+      padding: 5px;
+      text-align: center;
+      vertical-align: middle;
+    }
+  
+    th {
+      background-color: #024294;
+      color: white;
+      font-weight: bold;
+    }
+  
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+  
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+  
+    thead tr {
+      background-color: #333;
+      color: white;
+    }
+  
+    p {
+      font-size: 16px;
+      margin: 10px 0;
+    }
+  
+    strong {
+      font-weight: bold;
+    }
+  </style>
+  
+  <p>จำนวนบุคลากร จำแนกตามหน้าที่ เพศ ระดับการศึกษา อายุ และประสบการณ์</p>
+  <table>
+    <thead>
+      <tr>
+        <th rowspan="2">ประเภทบุคลากร</th>
+        <th colspan="2">เพศ</th>
+        <th colspan="3">ระดับการศึกษา</th>
+        <th colspan="3">อายุเฉลี่ย</th>
+        <th colspan="3">ประสบการณ์ในตำแหน่ง</th>
+      </tr>
+      <tr>
+        <th>ชาย</th>
+        <th>หญิง</th>
+        <th>ต่ำกว่า ป.ตรี</th>
+        <th>ป.ตรี</th>
+        <th>สูงกว่า ป.ตรี</th>
+        <th>น้อยกว่า <strong>30</strong> ปี</th>
+        <th><strong>31-50</strong></th>
+        <th><strong>51</strong> ปีขึ้นไป</th>
+        <th>น้อยกว่า <strong>10</strong> ปี</th>
+        <th><strong>11-20</strong> ปี</th>
+        <th><strong>21</strong> ปีขึ้นไป</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>ผู้อำนวยการ</td>
+        <td>-</td>
+        <td>1</td>
+        <td>-</td>
+        <td>-</td>
+        <td>1</td>
+        <td>-</td>
+        <td>1</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>ครูประจำการ</td>
+        <td>2</td>
+        <td>4</td>
+        <td>-</td>
+        <td>5</td>
+        <td>1</td>
+        <td>1</td>
+        <td>5</td>
+        <td>-</td>
+        <td>4</td>
+        <td>-</td>
+        <td>2</td>
+      </tr>
+      <tr>
+        <td>พนักงานราชการ</td>
+        <td>-</td>
+        <td>1</td>
+        <td>-</td>
+        <td>1</td>
+        <td>-</td>
+        <td>1</td>
+        <td>-</td>
+        <td>-</td>
+        <td>1</td>
+        <td>-</td>
+        <td>-</td>
+      </tr>
+      <tr>
+        <td>ครูอัตราจ้าง</td>
+        <td>-</td>
+        <td>1</td>
+        <td>-</td>
+        <td>1</td>
+        <td>-</td>
+        <td>1</td>
+        <td>-</td>
+        <td>-</td>
+        <td>1</td>
+        <td>-</td>
+        <td>-</td>
+      </tr>
+      <tr>
+        <td>ธุรการ</td>
+        <td>-</td>
+        <td>1</td>
+        <td>-</td>
+        <td>1</td>
+        <td>-</td>
+        <td>1</td>
+        <td>-</td>
+        <td>-</td>
+        <td>1</td>
+        <td>-</td>
+        <td>-</td>
+      </tr>
+      <tr>
+        <td>รวม</td>
+        <td>2</td>
+        <td>8</td>
+        <td>-</td>
+        <td>8</td>
+        <td>2</td>
+        <td>1</td>
+        <td>6</td>
+        <td>-</td>
+        <td>7</td>
+        <td>-</td>
+        <td>3</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <p>จำนวนบุคลากร จำแนกตามสาขาวิชาเอก (ปริญญาตรี)</p>
+  <table>
+    <thead>
+      <tr>
+        <th>สาขาวิชาเอก</th>
+        <th>จำนวน (คน)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>ภาษาไทย</td>
+        <td>2</td>
+      </tr>
+      <tr>
+        <td>วิทยาศาสตร์</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>อุตสาหกรรมบัณฑิต</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>บริหารธุรกิจ</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>ศิลปกรรมดนตรี</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>รัฐศาสตร์</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>ปฐมวัย</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>รวม</td>
+        <td>8</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <p> จำนวนครูที่สอนตรงตามวิชาเอก และ ไม่ตรงตามวิชาเอก </p>
+  <p>จำนวนครูที่สอนตรงตามวิชาเอก <strong>5</strong> คน (คิดเป็นร้อยละ <strong>62.5</strong>)</p>
+  <p>จำนวนครูที่ไม่สอนตรงตามวิชาเอก แต่สอนตามความถนัด <strong>3</strong> คน (คิดเป็นร้อยละ <strong>37.5</strong>)</p>
+  
+  <p>จำแนกตามวิทยฐานะ </p>
+  <table>
+    <thead>
+      <tr>
+        <th>วิทยฐานะ</th>
+        <th>จำนวน (คน)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>ยังไม่มีวิทยฐานะ</td>
+        <td>4</td>
+      </tr>
+      <tr>
+        <td>ชำนาญการ</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>ชำนาญการพิเศษ</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>รวม</td>
+        <td>6</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <p> จำนวนครู จำแนกตามระดับชั้นที่สอนและกลุ่มสาระการเรียนรู้ </p>
+  <table>
+    <thead>
+      <tr>
+        <th>ระดับ/กลุ่มสาระการเรียนรู้</th>
+        <th>จำนวนครู</th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+      <tr>
+        <th></th>
+        <th>ปฐมวัย</th>
+        <th></th>
+        <th>ประถมศึกษา</th>
+        <th></th>
+      </tr>
+      <tr>
+        <th></th>
+        <th>ตรงเอก</th>
+        <th>ไม่ตรงเอก</th>
+        <th>ตรงเอก</th>
+        <th>ไม่ตรงเอก</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>ปฐมวัย</td>
+        <td>1</td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>ภาษาไทย</td>
+        <td></td>
+        <td></td>
+        <td>2</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>คณิตศาสตร์</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>วิทยาศาสตร์และเทคโนโลยี</td>
+        <td></td>
+        <td></td>
+        <td>1</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>สังคมศึกษา ศาสนา วัฒนธรรม</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>สุขศึกษาและพลศึกษา</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>ศิลปะ</td>
+        <td></td>
+        <td></td>
+        <td>1</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>การงานอาชีพ</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>ภาษาต่างประเทศ</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>รวม</td>
+        <td>1</td>
+        <td></td>
+        <td>4</td>
+        <td>3</td>
+      </tr>
+    </tbody>
+  </table>
+  
+ <p>จำนวนห้องเรียนปกติ จำนวนผู้เรียนจำแนกตามระดับชั้นที่เปิดสอน</p> 
+  <table>
+    <thead>
+      <tr>
+        <th>ระดับที่เปิดสอน</th>
+        <th>จำนวนห้องเรียนปกติ</th>
+        <th>จำนวนผู้เรียน</th>
+        <th></th>
+        <th>จำนวนผู้เรียนที่มีความต้องการพิเศษ (เฉพาะผ่านการคัดกรองแล้ว)</th>
+        <th></th>
+        <th>รวม</th>
+        <th></th>
+      </tr>
+      <tr>
+        <th></th>
+        <th></th>
+        <th><strong>ชาย</strong></th>
+        <th><strong>หญิง</strong></th>
+        <th><strong>ชาย</strong></th>
+        <th><strong>หญิง</strong></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>เตรียมอนุบาล</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>ระดับก่อนประถมศึกษา</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>อนุบาลปีที่ 2</td>
+        <td><strong>1</strong></td>
+        <td>2</td>
+        <td>7</td>
+        <td><strong>-</strong></td>
+        <td><strong>-</strong></td>
+        <td><strong>9</strong></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>อนุบาลปีที่ 3</td>
+        <td><strong>1</strong></td>
+        <td>7</td>
+        <td>5</td>
+        <td><strong>-</strong></td>
+        <td><strong>-</strong></td>
+        <td><strong>12</strong></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>รวม</td>
+        <td><strong>2</strong></td>
+        <td><strong>9</strong></td>
+        <td><strong>12</strong></td>
+        <td><strong>-</strong></td>
+        <td><strong>-</strong></td>
+        <td><strong>21</strong></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>ระดับประถมศึกษา</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>ประถมศึกษาปีที่ 1</td>
+        <td><strong>1</strong></td>
+        <td>6</td>
+        <td><strong>2</strong></td>
+        <td><strong>-</strong></td>
+        <td><strong>-</strong></td>
+        <td><strong>8</strong></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>ประถมศึกษาปีที่ 2</td>
+        <td><strong>1</strong></td>
+        <td>7</td>
+        <td>6</td>
+        <td><strong>-</strong></td>
+        <td><strong>-</strong></td>
+        <td><strong>13</strong></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>ประถมศึกษาปีที่ 3</td>
+        <td><strong>1</strong></td>
+        <td>3</td>
+        <td>6</td>
+        <td><strong>-</strong></td>
+        <td><strong>-</strong></td>
+        <td><strong>9</strong></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>ประถมศึกษาปีที่ 4</td>
+        <td><strong>1</strong></td>
+        <td>8</td>
+        <td>6</td>
+        <td><strong>-</strong></td>
+        <td><strong>-</strong></td>
+        <td><strong>14</strong></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>ประถมศึกษาปีที่ 5</td>
+        <td><strong>1</strong></td>
+        <td>6</td>
+        <td>1</td>
+        <td><strong>-</strong></td>
+        <td><strong>-</strong></td>
+        <td><strong>7</strong></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>ประถมศึกษาปีที่ 6</td>
+        <td><strong>1</strong></td>
+        <td>5</td>
+        <td>2</td>
+        <td><strong>-</strong></td>
+        <td><strong>-</strong></td>
+        <td><strong>7</strong></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>รวม</td>
+        <td><strong>6</strong></td>
+        <td><strong>35</strong></td>
+        <td><strong>23</strong></td>
+        <td><strong>-</strong></td>
+        <td><strong>-</strong></td>
+        <td><strong>58</strong></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>รวมทั้งสิ้น</td>
+        <td></td>
+        <td><strong>44</strong></td>
+        <td><strong>35</strong></td>
+        <td><strong>-</strong></td>
+        <td><strong>-</strong></td>
+        <td><strong>79</strong></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <p> ข้อมูลผลสัมฤทธิ์ทางการเรียน </p>
+  <h3>ข้อมูลผลสัมฤทธิ์ทางการเรียน</h3>
+  <p><strong>ระดับการศึกษาขั้นพื้นฐาน</strong></p>
+  <p><strong>จำนวนและร้อยละของนักเรียนที่มีผลการเรียนระดับ 3 ขึ้นไป ระดับประถมศึกษา</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>กลุ่มสาระ การเรียนรู้/รายวิชา</th>
+        <th colspan="2">ป.1</th>
+        <th colspan="2">ป.2</th>
+        <th colspan="2">ป.3</th>
+        <th colspan="2">ป.4</th>
+        <th colspan="2">ป.5</th>
+        <th colspan="2">ป.6</th>
+      </tr>
+      <tr>
+        <th></th>
+        <th>จำนวนนักเรียน</th>
+        <th>จำนวนนักเรียนที่มีผลระดับ 3 ขึ้นไป</th>
+        <th>ร้อยละ</th>
+        <th>จำนวนนักเรียน</th>
+        <th>จำนวนนักเรียนที่มีผลระดับ 3 ขึ้นไป</th>
+        <th>ร้อยละ</th>
+        <th>จำนวนนักเรียน</th>
+        <th>จำนวนนักเรียนที่มีผลระดับ 3 ขึ้นไป</th>
+        <th>ร้อยละ</th>
+        <th>จำนวนนักเรียน</th>
+        <th>จำนวนนักเรียนที่มีผลระดับ 3 ขึ้นไป</th>
+        <th>ร้อยละ</th>
+        <th>จำนวนนักเรียน</th>
+        <th>จำนวนนักเรียนที่มีผลระดับ 3 ขึ้นไป</th>
+        <th>ร้อยละ</th>
+        <th>จำนวนนักเรียน</th>
+        <th>จำนวนนักเรียนที่มีผลระดับ 3 ขึ้นไป</th>
+        <th>ร้อยละ</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>ภาษาไทย</td>
+        <td>13</td>
+        <td>13</td>
+        <td>100</td>
+        <td>9</td>
+        <td>8</td>
+        <td>88.8</td>
+        <td>15</td>
+        <td>13</td>
+        <td>86</td>
+        <td>8</td>
+        <td>7</td>
+        <td>87</td>
+        <td>7</td>
+        <td>5</td>
+        <td>71</td>
+        <td>12</td>
+        <td>12</td>
+        <td>100</td>
+      </tr>
+      <tr>
+        <td>คณิตศาสตร์</td>
+        <td>13</td>
+        <td>13</td>
+        <td>100</td>
+        <td>9</td>
+        <td>9</td>
+        <td>100</td>
+        <td>15</td>
+        <td>9</td>
+        <td>46</td>
+        <td>8</td>
+        <td>6</td>
+        <td>62</td>
+        <td>7</td>
+        <td>5</td>
+        <td>71</td>
+        <td>12</td>
+        <td>9</td>
+        <td>75</td>
+      </tr>
+      <tr>
+        <td>วิทยาศาสตร์และเทคโนโลยี</td>
+        <td>13</td>
+        <td>13</td>
+        <td>100</td>
+        <td>9</td>
+        <td>9</td>
+        <td>100</td>
+        <td>15</td>
+        <td>13</td>
+        <td>73</td>
+        <td>8</td>
+        <td>8</td>
+        <td>100</td>
+        <td>7</td>
+        <td>7</td>
+        <td>100</td>
+        <td>12</td>
+        <td>11</td>
+        <td>92</td>
+      </tr>
+      <tr>
+        <td>สังคมศึกษา ศาสนา และวัฒนธรรม</td>
+        <td>13</td>
+        <td>13</td>
+        <td>100</td>
+        <td>9</td>
+        <td>9</td>
+        <td>100</td>
+        <td>15</td>
+        <td>12</td>
+        <td>66</td>
+        <td>8</td>
+        <td>8</td>
+        <td>100</td>
+        <td>7</td>
+        <td>4</td>
+        <td>57</td>
+        <td>12</td>
+        <td>12</td>
+        <td>100</td>
+      </tr>
+      <tr>
+        <td>ประวัติศาสตร์</td>
+        <td>13</td>
+        <td>13</td>
+        <td>100</td>
+        <td>9</td>
+        <td>9</td>
+        <td>100</td>
+        <td>15</td>
+        <td>14</td>
+        <td>93</td>
+        <td>8</td>
+        <td>8</td>
+        <td>100</td>
+        <td>7</td>
+        <td>5</td>
+        <td>71</td>
+        <td>12</td>
+        <td>12</td>
+        <td>100</td>
+      </tr>
+      <tr>
+        <td>สุขศึกษาและ พลศึกษา</td>
+        <td>13</td>
+        <td>13</td>
+        <td>100</td>
+        <td>9</td>
+        <td>9</td>
+        <td>100</td>
+        <td>15</td>
+        <td>15</td>
+        <td>100</td>
+        <td>8</td>
+        <td>8</td>
+        <td>100</td>
+        <td>7</td>
+        <td>7</td>
+        <td>100</td>
+        <td>12</td>
+        <td>12</td>
+        <td>100</td>
+      </tr>
+      <tr>
+        <td>ศิลปะ</td>
+        <td>13</td>
+        <td>13</td>
+        <td>100</td>
+        <td>9</td>
+        <td>9</td>
+        <td>100</td>
+        <td>15</td>
+        <td>15</td>
+        <td>100</td>
+        <td>8</td>
+        <td>8</td>
+        <td>100</td>
+        <td>7</td>
+        <td>7</td>
+        <td>100</td>
+        <td>12</td>
+        <td>12</td>
+        <td>100</td>
+      </tr>
+      <tr>
+        <td>การงานอาชีพ</td>
+        <td>13</td>
+        <td>13</td>
+        <td>100</td>
+        <td>9</td>
+        <td>9</td>
+        <td>100</td>
+        <td>15</td>
+        <td>14</td>
+        <td>93</td>
+        <td>8</td>
+        <td>8</td>
+        <td>100</td>
+        <td>7</td>
+        <td>7</td>
+        <td>100</td>
+        <td>12</td>
+        <td>12</td>
+        <td>100</td>
+      </tr>
+      <tr>
+        <td>ภาษาต่างประเทศ</td>
+        <td>13</td>
+        <td>13</td>
+        <td>100</td>
+        <td>9</td>
+        <td>8</td>
+        <td>88.8</td>
+        <td>15</td>
+        <td>15</td>
+        <td>100</td>
+        <td>8</td>
+        <td>8</td>
+        <td>100</td>
+        <td>7</td>
+        <td>3</td>
+        <td>42</td>
+        <td>12</td>
+        <td>12</td>
+        <td>100</td>
+      </tr>
+    </tbody>
+  </table>
+  
