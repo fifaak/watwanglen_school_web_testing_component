@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบเปรียบเทียบทุนการศึกษา</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            color: #024294;
+        }
+        .filters {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        select {
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .chart-container {
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #024294;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ระบบเปรียบเทียบทุนการศึกษา</h1>
+        <div class="filters">
+            <select id="yearSelect">
+                <option value="all">ทุกปีการศึกษา</option>
+            </select>
+            <select id="classSelect">
+                <option value="all">ทุกชั้นเรียน</option>
+            </select>
+        </div>
+        <div id="summary"></div>
+        <div class="chart-container">
+            <canvas id="scholarshipChart"></canvas>
+        </div>
+        <h2>รายชื่อนักเรียนที่ยังไม่ได้ทุน</h2>
+        <table id="unfundedTable">
+            <thead>
+                <tr>
+                    <th>ชื่อ-สกุล</th>
+                    <th>ชั้นเรียน</th>
+                    <th>ปีการศึกษา</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <script>
+        const apiKey = 'AIzaSyBLxCcocJeg20F9YcKVz-0mzU0vQ712GEc';
+        const folderId = '10D0WuKzHibFIsPol0uowuK-mWVFdO6K8';
+        let allFiles = [];
+        let summary = {};
+        let unfundedStudents = [];
+        let chart;
+
+        async function fetchFiles(folderId) {
+            try {
+                const response = await fetch(`https://www.googleapis.com/drive/v3/files?q='${folderId}'+in+parents&key=${apiKey}&fields=files(id,name,mimeType)`);
+                const data = await response.json();
+                return data.files;
+            } catch (error) {
+                console.error('Error fetching files:', error);
+                return [];
+            }
+        }
+
+        async function fetchAllFiles() {
+            const yearFolders = await fetchFiles(folderId);
+            for (const yearFolder of yearFolders) {
+                if (yearFolder.mimeType === 'application/vnd.google-apps.folder') {
+                    const classFolders = await fetchFiles(yearFolder.id);
+                    for (const classFolder of classFolders) {
+                        if (classFolder.mimeType === 'application/vnd.google-apps.folder') {
+                            const files = await fetchFiles(classFolder.id);
+                            for (const file of files) {
+                                if (file.mimeType === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
+                                    allFiles.push({ ...file, year: yearFolder.name, class: classFolder.name });
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            updateFilters();
+            await processFiles();
+        }
+
+        function updateFilters() {
+            const yearSelect = document.getElementById('yearSelect');
+            const classSelect = document.getElementById('classSelect');
+            const years = [...new Set(allFiles.map(file => file.year))];
+            const classes = [...new Set(allFiles.map(file => file.class))];
+
+            years.forEach(year => {
+                const option = document.createElement('option');
+                option.value = year;
+                option.textContent = year;
+                yearSelect.appendChild(option);
+            });
+
+            classes.forEach(className => {
+                const option = document.createElement('option');
+                option.value = className;
+                option.textContent = className;
+                classSelect.appendChild(option);
+            });
+        }
+
+        async function processFiles() {
+            summary = {};
+            unfundedStudents = [];
+            const selectedYear = document.getElementById('yearSelect').value;
+            const selectedClass = document.getElementById('classSelect').value;
+
+            for (const file of allFiles) {
+                if (selectedYear !== 'all' && file.year !== selectedYear) continue;
+                if (selectedClass !== 'all' && file.class !== selectedClass) continue;
+
+                const response = await fetch(`https://www.googleapis.com/drive/v3/files/${file.id}?alt=media&key=${apiKey}`);
+                const arrayBuffer = await response.arrayBuffer();
+                const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+
+                const firstSheetName = workbook.SheetNames[0];
+                const worksheet = workbook.Sheets[firstSheetName];
+                const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+                const notFundedCount = jsonData.slice(1).filter(row => 
+                    row.slice(3, 8).every(cell => cell === '-' || cell === '' || cell === 0)
+                ).length;
+                const totalCount = jsonData.length - 1; // Subtract 1 to exclude header row
+                const fundedCount = totalCount - notFundedCount;
+
+                if (!summary[file.year]) {
+                    summary[file.year] = { funded: 0, notFunded: 0, total: 0 };
+                }
+                summary[file.year].funded += fundedCount;
+                summary[file.year].notFunded += notFundedCount;
+                summary[file.year].total += totalCount;
+
+                // Collect unfunded students
+                jsonData.slice(1).forEach(row => {
+                    if (row.slice(3, 8).every(cell => cell === '-' || cell === '' || cell === 0)) {
+                        unfundedStudents.push({
+                            name: row[1],
+                            class: file.class,
+                            year: file.year
+                        });
+                    }
+                });
+            }
+
+            updateSummary();
+            updateChart();
+            updateUnfundedTable();
+        }
+
+        function updateSummary() {
+            const summaryDiv = document.getElementById('summary');
+            const growthRate = calculateGrowthRate();
+            const totalUnfunded = calculateTotalUnfunded();
+            const classUnfunded = calculateClassUnfunded();
+
+            summaryDiv.innerHTML = `
+                <p>อัตราการเติบโตของการให้ทุน 3 ปีย้อนหลัง: ${growthRate}</p>
+                <p>จำนวนนักเรียนที่ยังไม่ได้ทุนทั้งโรงเรียน: ${totalUnfunded}</p>
+                <p>จำนวนนักเรียนที่ยังไม่ได้ทุนในชั้นที่เลือก: ${classUnfunded}</p>
+            `;
+        }
+
+        function calculateGrowthRate() {
+            const years = Object.keys(summary).sort();
+            if (years.length < 2) return 'ไม่มีข้อมูลเพียงพอ';
+
+            const rates = [];
+            for (let i = 1; i < years.length; i++) {
+                const prevYear = years[i - 1];
+                const currYear = years[i];
+                const prevRate = summary[prevYear].funded / summary[prevYear].total;
+                const currRate = summary[currYear].funded / summary[currYear].total;
+                const growthRate = ((currRate - prevRate) / prevRate) * 100;
+                rates.push(growthRate.toFixed(2));
+            }
+
+            return rates.join(', ') + '%';
+        }
+
+        function calculateTotalUnfunded() {
+            const total = Object.values(summary).reduce((acc, curr) => acc + curr.notFunded, 0);
+            const totalStudents = Object.values(summary).reduce((acc, curr) => acc + curr.total, 0);
+            const percentage = ((total / totalStudents) * 100).toFixed(2);
+            return `${total} คน (${percentage}%)`;
+        }
+
+        function calculateClassUnfunded() {
+            const selectedClass = document.getElementById('classSelect').value;
+            if (selectedClass === 'all') return 'กรุณาเลือกชั้นเรียน';
+            const classData = unfundedStudents.filter(student => student.class === selectedClass);
+            const total = classData.length;
+            const classTotal = Object.values(summary).reduce((acc, curr) => acc + curr.total, 0);
+            const percentage = ((total / classTotal) * 100).toFixed(2);
+            return `${total} คน (${percentage}%)`;
+        }
+
+        function updateChart() {
+            const ctx = document.getElementById('scholarshipChart').getContext('2d');
+            const chartData = Object.entries(summary).map(([year, data]) => ({
+                year,
+                funded: (data.funded / data.total) * 100,
+                notFunded: (data.notFunded / data.total) * 100
+            }));
+
+            if (chart) {
+                chart.destroy();
+            }
+
+            chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: chartData.map(d => d.year),
+                    datasets: [
+                        {
+                            label: 'ได้ทุน (%)',
+                            data: chartData.map(d => d.funded),
+                            backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                        },
+                        {
+                            label: 'ยังไม่ได้ทุน (%)',
+                            data: chartData.map(d => d.notFunded),
+                            backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateUnfundedTable() {
+            const tableBody = document.querySelector('#unfundedTable tbody');
+            tableBody.innerHTML = '';
+            unfundedStudents.forEach(student => {
+                const row = tableBody.insertRow();
+                row.insertCell(0).textContent = student.name;
+                row.insertCell(1).textContent = student.class;
+                row.insertCell(2).textContent = student.year;
+            });
+        }
+
+        document.getElementById('yearSelect').addEventListener('change', processFiles);
+        document.getElementById('classSelect').addEventListener('change', processFiles);
+
+        fetchAllFiles();
+    </script>
+</body>
+</html>
